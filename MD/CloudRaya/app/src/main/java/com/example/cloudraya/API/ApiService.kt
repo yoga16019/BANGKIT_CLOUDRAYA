@@ -7,33 +7,26 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-object ApiService {
-    private const val BASE_URL ="https://api.cloudraya.com/"
+class ApiService (baseUrl : String) {
+//    private const val BASE_URL ="https://api.cloudraya.com/"
 
-    private  val client : Retrofit
+    val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY // Set the desired log level
+    }
 
-        get() {
-            val gson = GsonBuilder()
-                .setLenient()
-                .create()
+    val client = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .build()
 
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
+    val retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(GsonConverterFactory.create()) // Optional: Gson converter for JSON serialization/deserialization
+        .client(client)
+        .build()
 
-            val client : OkHttpClient = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .connectTimeout(40, TimeUnit.SECONDS)
-                .readTimeout(40, TimeUnit.SECONDS)
-                .writeTimeout(40, TimeUnit.SECONDS)
-                .build()
+    val instanceRetrofit = retrofit.create(UserApi::class.java)
 
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .build()
-        }
+//    val instanceRetrofit : UserApi
+//        get() = client.create(UserApi::class.java)
 
-    val instanceRetrofit : UserApi
-        get() = client.create(UserApi::class.java)
 }

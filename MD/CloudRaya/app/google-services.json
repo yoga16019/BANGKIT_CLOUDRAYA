@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "741724976284",
+    "project_id": "bangkitcr-34c18",
+    "storage_bucket": "bangkitcr-34c18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741724976284:android:06ce46601e2202f01ee959",
+        "android_client_info": {
+          "package_name": "com.example.cloudraya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741724976284-eqmg0gafp0t97vfjalis8b71nqgtudtm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwmKXEKb-OgeDKDmALeRq-Tcoc52OhBnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741724976284-eqmg0gafp0t97vfjalis8b71nqgtudtm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

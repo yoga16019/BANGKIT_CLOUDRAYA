@@ -1,10 +1,10 @@
 package com.example.cloudraya.Model
 
-import com.google.gson.annotations.Expose
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Data(
-    @Expose
-    val bearer_token: String? = null,
-    @Expose
+    var bearer_token: String? = null,
     val username: String? = null
-)
+):Parcelable
