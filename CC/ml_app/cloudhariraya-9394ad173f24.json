@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "cloudhariraya",
+  "private_key_id": "9394ad173f24bdc78e8ce4d0a2be2565885d73f2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDv+q5aVNgopDl6\neqUsMLMzjGWWx0eTVqFTlItpWvZjNIy9NMJ2gZiR1ZsoOMl/TDm13vQPuyvtkW8U\nUP95+HDIy4blluNpQSw5wZWRNzNkkAcBtdtJCvjRVrRaJrEOosFFM8gU4hj7BuWa\n2NPgxXhO8OKUraCx9WE5cc4QKxtiAYjSsHypSA8eq90Bh1foNunLQDxqB3CH5MGc\n1A6MkJU8Guyn5JL6ygiOOPHNxZWFx+ffm1+IUUnoK3i+W3bwjeT+dJV3z7gFYp3n\nWz9FrBFCIkFre149ymggWZsOcScjKqfehIEvC4D+q1npKDuIFujubk+SB+W+vDLS\nxQvjibPbAgMBAAECggEAaoJJJeBoO8l/lUOf0Xgf4O4cHIp/0v3tBip0oaL0nd0x\n5bvn3y7vpzI19ekWTUBokLbOfbjl6z/UHCFC8kB41jW2vml0rz90wIGRv2zPi399\nDJ5JICcVfdvMmgJ4LPXBb9RmphYfXjKWb15y01zxY5/4AGL7YmB08Uj4Wya2tYz6\nvfUbfQH9RqBsKNCFXow5f7QHLAw1wyImPIHpHUEjGyvOHZN2BIB/WXd6djKGWPcP\nNjEB/KAyxNvqiIeotYHSY/TFBRbnlsWhQGFpOFWH65Q00xK711jiz5t53P+32q4D\nF70cAniv2zCEU61pTZxEFQXeHVooUjpnDjn1ndpFkQKBgQD8g7sCJxuylCl0mOOY\ncinleV81H7PAsxwDPekWUacfoP45bxzuZZMf9HfjHqQ6IIph/+9w0QftA2AmG9JG\nLSSrGszTuDFbkHkgucVzfsJDJnWSp6vYpwrSpa1WVNTfEOa/MIsmVdhjCCAEFWXR\nIheS8Pch6/Xzsof6bICmhIe9+QKBgQDzSqgM9Ys1lyRKNbXDJfIwwfUa5hG7geC2\n/VZ8/FeV3krVVzNR9StT2iUlIUXgi1QI6Y2sJaSZ6631ZmnP6eTZM5GRuwHnxgEV\nsZRWqXL6ZQpDGPmKGCeRiCvhp52hIIP7x8S+Xfob4NZX28nVztCB7E29ux7BDE/h\nQyH51wWFcwKBgCXvzIq4QWsE422HArqGfFDjeTBMAP90aUL7bCdUQR15XHhYfyo5\nzG7ClbhjhBzPgrrSbrCuVth+51USXPb6FUY3kopEY/XzsJ8ACfAeHSVlg8hytFiq\nT+/xwCb2O7z/lwsmSeGKiCXotJaoeFGBI7WJyjcoch0Yt2EiJ/ncc2BRAoGBANie\ncGKZfgmJOVaZ2+yVrL6c84+vqbo6Ocq0Zn2CcLmP4zFxItCmap2ObeRRa9YyN/B3\ngxzzp0sk/Q6y0SO+LXT25XXL/DZRpkWah2liFm276Rc09XpvZ0u84tVYWJFOUjWr\n+RFGu5p25mHz4BHuwtfrfoygPxHD1JvNGkNJoDDhAoGAfcY/iKfO4JODWqNdw76g\nVlsVZl5JKjwKBaR4QSvfduj1ynssQBpqq8FmVwGsVQLpsEUVKmw9CxFbgpdW884D\nWlYj3PFOYXSFJPeUPsVHQgWE1EnHKjeFK+kETnkhL2Yhsifqz+ZrqFVQOF8SX2Xn\nzCHk0DgCOpxkvQPNx3NSvnM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "mlcraya@cloudhariraya.iam.gserviceaccount.com",
+  "client_id": "114524514481256039085",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mlcraya%40cloudhariraya.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
