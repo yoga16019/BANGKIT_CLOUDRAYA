@@ -1,7 +1,7 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas
+from . import crud, prediction, models, schemas
 from .database import SessionLocal, engine
 
 from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
@@ -24,8 +24,8 @@ class EmailSchema(BaseModel):
    email: List[EmailStr]
 
 conf = ConnectionConfig(
-    MAIL_USERNAME ="03982692f7487a",
-    MAIL_PASSWORD = "70bbc2298f66da",
+    MAIL_USERNAME ="a04ccaceb6307a",
+    MAIL_PASSWORD = "9b8999656ddbe0",
     MAIL_FROM = "crone@cloudraya.com",
     MAIL_PORT = 587,
     MAIL_SERVER = "sandbox.smtp.mailtrap.io",
@@ -48,13 +48,27 @@ def get_db():
 def create_newuser(token: str, db: Session = Depends(get_db)):
     return crud.create_user(db, token=token)
 
-@app.post("/v1/api/gateway/user/virtualmachines", response_model=schemas.Vm)
+@app.get("/v1/api/gateway/user/")
+def get_users( db: Session = Depends(get_db)):
+    return crud.get_users(db)
+
+@app.post("/v1/api/gateway/user/delete")
+def delete_user(id: int, db: Session = Depends(get_db)):
+    return crud.delete_user(db, id=id)
+
+@app.post("/v1/api/gateway/user/virtualmachinespc", response_model=schemas.Vm)
 def create_vm(vm: schemas.VmBase, db: Session = Depends(get_db)):
     db_user = crud.get_vmname(db, vm_name=vm.name)
     if db_user:
         raise HTTPException(status_code=400, detail="vm name already registered")
     return crud.create_vm(db=db, vm=vm)
 
+@app.post("/v1/api/gateway/user/virtualmachines", response_model=schemas.Vm)
+def create_vm_phone(vm: schemas.VmBase, db: Session = Depends(get_db)):
+    db_user = crud.get_vmname(db, vm_name=vm.name)
+    if db_user:
+        raise HTTPException(status_code=400, detail="vm name already registered")
+    return crud.create_vmp(db=db, vm=vm)
 
 @app.get("/v1/api/gateway/user/virtualmachines")
 def read_vms(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -110,21 +124,22 @@ async def create_code(id: int, action: str, db: Session = Depends(get_db)):
     fm = FastMail(conf)
     await fm.send_message(message)
     #send notification
-    notirec = db.query(User.token).all()
-    tokens = [row[0] for row in result]
-    notif = messaging.Message(
+    notirec = db.query(models.User.token).all()
+    tokens = [row[0] for row in notirec]
+    print(id)
+    notif = messaging.MulticastMessage(
         notification=messaging.Notification(
             title="We need your verification" ,
             body="VM with ID " + str(id) + " has been " + action + "d/ed, check your mail"
         ),
         data={
-            "vm_id": id, 
+            "vm_id": str(id), 
             "action": action
             },
         # Specify the token(s) of the Android device(s) to receive the notification
-        token=tokens
+        tokens=tokens[0]
     )
-    response = messaging.send(notif)
+    response = messaging.send_multicast(notif)
     return JSONResponse(status_code=200, content={"message": "email has been sent"})
 
 @app.post("/v1/api/gateway/user/virtualmachines/verifynewvm/{vm_id}")
@@ -166,3 +181,49 @@ def start_stop_vm_phone(vm_id: int, request:str, release_ip: bool = False, db: S
     else:
         return {"code": 404, "error": "your credential not valid", "message": "your credential not valid"}
     return {"code": 200, "data": true, "message": "Please wait processing for start VM."}
+
+@app.post("/v1/api/gateway/user/virtualmachines/analytics/add/{vm_id}")
+def add_data(vm_id: int, new_data: float):
+    return prediction.add_new_data(vm_id, new_data)
+
+@app.post("/v1/api/gateway/user/virtualmachines/analytics/anomaly/{vm_id}")
+def anomaly_detection(vm_id: int, TIME_STEPS:int, threshold:float, tail_len:int, db: Session = Depends(get_db)):
+    response = prediction.predict(vm_id=vm_id, TIME_STEPS=TIME_STEPS, threshold=threshold, tail_len=tail_len)
+    if response == 'anomaly':
+        notirec = db.query(models.User.token).all()
+        tokens = [row[0] for row in notirec]
+        notif = messaging.MulticastMessage(
+            notification=messaging.Notification(
+                title="An anomaly has been found in vm" + str(vm_id),
+                body="We recommend you to re-check your vm with ID" + str(vm_id)
+            ),
+            data={
+                "vm_id": str(vm_id),
+                "action": "anomaly"
+                },
+            # Specify the token(s) of the Android device(s) to receive the notification
+            tokens=tokens
+        )
+        responseanom = messaging.send_multicast(notif)
+    return response
+
+@app.post("/v1/api/gateway/user/virtualmachines/analytics/resource/{vm_id}")
+def resource_detection(vm_id: int, recap:int, threshold:float, db: Session = Depends(get_db)):
+    response = prediction.resource(vm_id, recap, threshold)
+    if response != 'nothing' or response != 'No data has been recorded yet':
+        notirec = db.query(models.User.token).all()
+        tokens = [row[0] for row in notirec]
+        notif = messaging.MulticastMessage(
+            notification=messaging.Notification(
+                title="You need additional resource for vm" + str(vm_id),
+                body=str(response)
+            ),
+            data={
+                "vm_id": str(vm_id),
+                "action": "resource"
+                },
+            # Specify the token(s) of the Android device(s) to receive the notification
+            tokens=tokens
+        )
+        responseanom = messaging.send_multicast(notif)
+    return response

@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 import secrets
+import string
 
 from . import models, schemas
 from uuid import uuid4
@@ -20,6 +21,14 @@ def get_vmname(db: Session, vm_name: int):
 
 def get_vms(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Vm).offset(skip).limit(limit).all()
+
+def get_users(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.User).offset(skip).limit(limit).all()
+
+def delete_user(db: Session, id: int, skip: int = 0, limit: int = 100):
+    db.delete(db.query(models.User).filter(models.User.id == id).first())
+    db.commit()
+    return {"code": 200, "message": "Success deleting VM."}
 
 def start_vm(db: Session, vm_id: int, vcode: str):
     vmver = db.query(models.Vercode).filter(models.Vercode.vm_id == vm_id and models.Vercode.action == "start").order_by(models.Vercode.id.desc()).first()
@@ -155,6 +164,13 @@ def get_unverlog(db: Session, vm_id: int, info: bool = False):
 
 def create_vm(db: Session, vm: schemas.VmBase):
     new_vm = models.Vm(name=vm.name, email=vm.email)
+    db.add(new_vm)
+    db.commit()
+    db.refresh(new_vm)
+    return new_vm
+
+def create_vmp(db: Session, vm: schemas.VmBase):
+    new_vm = models.Vm(name=vm.name, email=vm.email, state=True, is_active=True)
     db.add(new_vm)
     db.commit()
     db.refresh(new_vm)
