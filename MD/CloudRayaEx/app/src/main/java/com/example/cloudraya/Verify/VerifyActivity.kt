@@ -28,13 +28,9 @@ class VerifyActivity : AppCompatActivity() {
 
         binding.btnVerify.setOnClickListener {
             if(ids!=null){
-                Log.e("hi", ids!!.vm_id.toString())
                 binding.textView12.text = ids!!.vm_id.toString()
                 if(ids.action == "create"){
                     val vCode = binding. etVerify.text
-                    Log.e("action", ids.action.toString())
-                    Log.e("id", ids.toString())
-                    Log.e("code", vCode.toString())
                     viewModel.responVerifyNewVm.observe(this@VerifyActivity){
                         when(it){
                             is NetworkResult.Success<*> ->{
@@ -44,14 +40,12 @@ class VerifyActivity : AppCompatActivity() {
                                     Toast.makeText(this@VerifyActivity, respon.toString(), Toast.LENGTH_SHORT).show()
                                 }else{
                                     Toast.makeText(this@VerifyActivity, respon.toString(), Toast.LENGTH_SHORT).show()
-
                                 }
                             }
                             is NetworkResult.Error ->{
                                 Toast.makeText(this@VerifyActivity, it.exception.toString(), Toast.LENGTH_SHORT).show()
                             }
                             is NetworkResult.Loading ->{
-//                    binding.progressBar.isVisible = it.isLoading
 
                             }
                         }
@@ -61,9 +55,6 @@ class VerifyActivity : AppCompatActivity() {
                 }else{
                     //action starts stop
                     val vCode = binding. etVerify.text
-                    Log.e("action", ids.action)
-                    Log.e("id", ids.toString())
-                    Log.e("code", vCode.toString())
                     viewModel.responVerifyAction.observe(this@VerifyActivity){
                         when(it){
                             is NetworkResult.Success<*> ->{
@@ -81,7 +72,6 @@ class VerifyActivity : AppCompatActivity() {
                                 Toast.makeText(this@VerifyActivity, it.exception.toString(), Toast.LENGTH_SHORT).show()
                             }
                             is NetworkResult.Loading ->{
-//                    binding.progressBar.isVisible = it.isLoading
 
                             }
                         }
@@ -92,9 +82,6 @@ class VerifyActivity : AppCompatActivity() {
                 binding.textView12.text = id.toString()
                 if(action == "create"){
                     val vCode = binding. etVerify.text
-                    Log.e("action", action.toString())
-                    Log.e("id", id.toString())
-                    Log.e("code", vCode.toString())
                     viewModel.responVerifyNewVm.observe(this@VerifyActivity){
                         when(it){
                             is NetworkResult.Success<*> ->{
@@ -111,7 +98,6 @@ class VerifyActivity : AppCompatActivity() {
                                 Toast.makeText(this@VerifyActivity, it.exception.toString(), Toast.LENGTH_SHORT).show()
                             }
                             is NetworkResult.Loading ->{
-//                    binding.progressBar.isVisible = it.isLoading
 
                             }
                         }
@@ -120,16 +106,10 @@ class VerifyActivity : AppCompatActivity() {
                 }else{
                     //action starts stop
                     val vCode = binding. etVerify.text
-                    Log.e("action", action.toString())
-                    Log.e("id", id.toString())
-                    Log.e("code", vCode.toString())
                     viewModel.responVerifyAction.observe(this@VerifyActivity){
                         when(it){
                             is NetworkResult.Success<*> ->{
                                 Log.e("respon", it.data.toString())
-
-//                      intent = Intent(this@VerifyActivity, VmListActivity::class.java)
-//                      startActivity(intent)
                                 Toast.makeText(this@VerifyActivity, it.data.toString(), Toast.LENGTH_SHORT).show()
 
                             }
@@ -137,15 +117,12 @@ class VerifyActivity : AppCompatActivity() {
                                 Toast.makeText(this@VerifyActivity, it.exception.toString(), Toast.LENGTH_SHORT).show()
                             }
                             is NetworkResult.Loading ->{
-//                    binding.progressBar.isVisible = it.isLoading
-
                             }
                         }
                     }
                     viewModel.verifyAction("https://harirayacloud.as.r.appspot.com/", id.toString(),action.toString(),vCode.toString())
                 }
             }
-
 
         }
 

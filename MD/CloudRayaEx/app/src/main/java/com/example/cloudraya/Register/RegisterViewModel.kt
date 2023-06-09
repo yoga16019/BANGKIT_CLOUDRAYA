@@ -11,7 +11,6 @@ import com.example.cloudraya.API.ApiService
 import com.example.cloudraya.Local.SiteDao
 import com.example.cloudraya.Local.SiteDatabase
 import com.example.cloudraya.Local.SiteRegister
-import com.example.cloudraya.ModelApiTest.ResponseLogin
 import com.example.cloudraya.Util.NetworkResult
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -33,6 +32,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         siteDao = siteDb?.SiteDao()
     }
 
+    //add data to databse
     fun addSite(site: SiteRegister){
         viewModelScope.launch {
             siteDao?.insert(site)
@@ -41,6 +41,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     val registerResponse = MutableLiveData<NetworkResult>()
 
+    //register site
      fun register(token: String, apiUrl: String){
         viewModelScope.launch {
             flow {
@@ -57,5 +58,4 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             }
         }
     }
-
 }

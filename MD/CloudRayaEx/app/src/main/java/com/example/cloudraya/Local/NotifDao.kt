@@ -7,10 +7,8 @@ import androidx.room.*
 interface NotifDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
      fun insert(notif: NotifData)
-
     @Query(" SELECT * FROM NotifList ")
     fun getAllNotif(): LiveData<MutableList<NotifData>>
-
     @Delete
     suspend fun delete(notif: NotifData)
 

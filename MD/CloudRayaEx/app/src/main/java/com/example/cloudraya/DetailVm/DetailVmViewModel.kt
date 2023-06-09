@@ -29,6 +29,7 @@ class DetailVmViewModel(application: Application): AndroidViewModel(application)
     val responseActionVm = MutableLiveData<NetworkResult>()
     val responseDetailVm = MutableLiveData<NetworkResult>()
 
+    //get detail vm from api
     fun getVmDetail(apiUrl: String, vmId:Int){
         viewModelScope.launch {
             flow {
@@ -46,6 +47,7 @@ class DetailVmViewModel(application: Application): AndroidViewModel(application)
         }
     }
 
+    // start/stop vm
     fun actionVm(apiUrl: String, vmId:Int, vmAction: String){
         viewModelScope.launch {
             flow {
@@ -62,93 +64,4 @@ class DetailVmViewModel(application: Application): AndroidViewModel(application)
             }
         }
     }
-
-//    fun getVmDetail(url: String, token: String, vmId: Int, refresh: SwipeRefreshLayout){
-//        ApiService(url).instanceRetrofit.getVMDetail(token, vmId).enqueue(object: Callback<ResponseDetailVm>{
-//            override fun onResponse(
-//                call: Call<ResponseDetailVm>,
-//                response: Response<ResponseDetailVm>,
-//            ) {
-//                if (refresh.isRefreshing){
-//                    refresh.isRefreshing=false
-//                }
-//                val respon = response.body()
-//                if (respon?.code== 200 ){
-//                    responseDetailVm.postValue(respon!!)
-//                    Log.e("berhasil ",response.message())
-//                }else{
-//                    Log.e("gagal ",response.message())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseDetailVm>, t: Throwable) {
-//                Log.e("gagal ",t.message!!)
-//            }
-//        })
-//    }
-//
-//    fun deleteVm(url: String,token: String, request: ResquestActionVm){
-//        ApiService(url).instanceRetrofit.actionVM(token, request).enqueue(object : Callback<ResponseActionVm> {
-//            override fun onResponse(
-//                call: Call<ResponseActionVm>,
-//                response: Response<ResponseActionVm>,
-//            ) {
-//                val respon = response.body()
-//                if (respon?.code == 200 ){
-//                    responseActionVm.postValue(respon!!)
-//                    Log.e("berhasil ",response.message())
-//                }else{
-//                    Log.e("gagal ",response.message())
-//                }
-//            }
-//            override fun onFailure(call: Call<ResponseActionVm>, t: Throwable) {
-//                Log.e("gagal ",t.message!!)
-//            }
-//
-//        })
-//    }
-//
-//    fun startVm(url: String,token: String, request: ResquestActionVm){
-//        ApiService(url).instanceRetrofit.actionVM(token, request).enqueue(object: Callback<ResponseActionVm>{
-//            override fun onResponse(
-//                call: Call<ResponseActionVm>,
-//                response: Response<ResponseActionVm>,
-//            ) {
-//                val respon = response.body()
-//                if (respon?.code == 200 ){
-//                    responseActionVm.postValue(respon!!)
-//                    Log.e("berhasil ",response.message())
-//                }else{
-//                    Log.e("gagal ",response.message())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseActionVm>, t: Throwable) {
-//                Log.e("gagal ",t.message!!)
-//            }
-//
-//        })
-//    }
-//
-//    fun stopVm(url: String, token: String, request: ResquestActionVm){
-//        ApiService(url).instanceRetrofit.actionVM(token, request).enqueue(object: Callback<ResponseActionVm>{
-//            override fun onResponse(
-//                call: Call<ResponseActionVm>,
-//                response: Response<ResponseActionVm>,
-//            ) {
-//                val respon = response.body()
-//                if (respon?.code == 200 ){
-//                    responseActionVm.postValue(respon!!)
-//                    Log.e("berhasil ",response.message())
-//                }else{
-//                    Log.e("gagal ",response.message())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseActionVm>, t: Throwable) {
-//                Log.e("gagal ",t.message!!)
-//            }
-//
-//        })
-//    }
 }

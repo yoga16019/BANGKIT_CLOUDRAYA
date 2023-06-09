@@ -7,19 +7,10 @@ import com.google.gson.annotations.SerializedName
 @Parcelize
 data class ResponseLogin(
 
-	@field:SerializedName("detail")
-	val detail: List<DetailItem?>? = null
-) : Parcelable
+	@field:SerializedName("token")
+	val token: String? = null,
 
-@Parcelize
-data class DetailItem(
+	@field:SerializedName("id")
+	val id: Int ? = null
 
-	@field:SerializedName("msg")
-	val msg: String? = null,
-
-	@field:SerializedName("loc")
-	val loc: List<String?>? = null,
-
-	@field:SerializedName("type")
-	val type: String? = null
 ) : Parcelable

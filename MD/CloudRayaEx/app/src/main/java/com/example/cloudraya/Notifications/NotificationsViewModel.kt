@@ -15,6 +15,7 @@ class NotificationsViewModel(application: Application): AndroidViewModel(applica
         notifDao = notifDb?.notifDao()
     }
 
+    //get site from room databse
     fun getSite(): LiveData<MutableList<NotifData>>{
         return notifDao!!.getAllNotif()
     }

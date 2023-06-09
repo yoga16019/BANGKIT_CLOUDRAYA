@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApiService (baseUrl : String) {
-//    private const val BASE_URL ="https://api.cloudraya.com/"
 
     val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY // Set the desired log level
@@ -26,7 +25,5 @@ class ApiService (baseUrl : String) {
 
     val instanceRetrofit = retrofit.create(UserApi::class.java)
 
-//    val instanceRetrofit : UserApi
-//        get() = client.create(UserApi::class.java)
 
 }

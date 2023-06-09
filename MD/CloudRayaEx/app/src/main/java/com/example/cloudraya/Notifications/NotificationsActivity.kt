@@ -20,8 +20,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 class NotificationsActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityNotificationsBinding
-    lateinit var notifData : MutableList<NotifData>
     private val viewModel by viewModels<NotificationsViewModel>()
     private val adapter by lazy{
         NotificationsAdapter {
@@ -31,18 +31,17 @@ class NotificationsActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNotificationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        //set recycler view
         binding.rvNotif.layoutManager = LinearLayoutManager(this)
         binding.rvNotif.adapter = adapter
         viewModel.getSite().observe(this){
             adapter.setNotifList(it)
         }
-
-
     }
 }

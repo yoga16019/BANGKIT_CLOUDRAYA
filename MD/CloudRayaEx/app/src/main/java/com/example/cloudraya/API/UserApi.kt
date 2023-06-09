@@ -3,6 +3,7 @@ package com.example.cloudraya.API
 import com.example.cloudraya.Model.*
 import com.example.cloudraya.ModelApiTest.ResponseActionVmVerify
 import com.example.cloudraya.ModelApiTest.ResponseDetailVm
+import com.example.cloudraya.ModelApiTest.ResponseLogin
 import okhttp3.ResponseBody
 
 import com.example.cloudraya.ModelApiTest.ResponseVmList
@@ -15,13 +16,7 @@ interface UserApi {
     @POST("/v1/api/gateway/user/")
     suspend fun login(
         @Query("token") token: String
-    ): ResponseBody
-
-//    @GET("/v1/api/gateway/user/virtualmachines/{id}")
-//    fun getVMDetail(@Header("Authorization") authorization: String, @Path("id") vmId: Int): Call<ResponseDetailVm>
-
-//    @POST("/v1/api/gateway/user/virtualmachines/action")
-//    fun actionVM(@Header("Authorization") authorization: String, @Body requestActionVm: ResquestActionVm) :Call<ResponseActionVm>
+    ): ResponseLogin
 
     @POST("/v1/api/gateway/user/virtualmachines/action")
     suspend fun actionVm(
@@ -41,6 +36,7 @@ interface UserApi {
         @Query("request") action: String,
         @Query("vcode") vcode: String
     ) : ResponseActionVmVerify
+
     @POST("/v1/api/gateway/user/virtualmachines/verifynewvm/{vm_id}")
     suspend fun verifyNewVm(
         @Path("vm_id") id: String,

@@ -35,27 +35,25 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //token
+        //get fcm token
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                // Tangani kegagalan mendapatkan token
                 return@addOnCompleteListener
             }
-
-            // Token perangkat yang berhasil diperoleh
             val key = task.result
             Log.e("key: ", key)
-            // Lakukan tindakan sesuai kebutuhan aplikasi Anda dengan token
         }
+
         val tokens = intent.getStringExtra("token")
         val token = intent.getParcelableExtra<SiteRegister>("siteList")
         val item = intent.getParcelableExtra<DataVm>("vmList")
 
+        //back button
         binding.buttonBack.setOnClickListener {
             onBackPressed()
         }
 
-
+        // detail vm from api
         viewModel.responseDetailVm.observe(this@DetailActivity){
             when(it) {
                 is NetworkResult.Success<*> -> {
@@ -64,7 +62,6 @@ class DetailActivity : AppCompatActivity() {
                         statusValue.text = respon.isActive.toString()
                         vmName.text = respon.name
                         tvIp.text = respon.state.toString()
-//                        tvLocation.text = respon.isActive.toString()
                     }
                 }
                 is NetworkResult.Error -> {
@@ -76,9 +73,9 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
-
         viewModel.getVmDetail(token!!.api_url, item!!.id!!)
 
+        //refresh
         swipeRefresh = binding.refresh
         swipeRefresh.setOnRefreshListener {
             viewModel.getVmDetail(token!!.api_url, item!!.id!!)
@@ -90,7 +87,6 @@ class DetailActivity : AppCompatActivity() {
                             statusValue.text = respon.isActive.toString()
                             vmName.text = respon.name
                             tvIp.text = respon.state.toString()
-//                            tvLocation.text = respon.isActive.toString()
                         }
                     }
                     is NetworkResult.Error -> {
@@ -105,32 +101,7 @@ class DetailActivity : AppCompatActivity() {
             swipeRefresh.isRefreshing =false
         }
 
-//        binding.btnDeleteVM.setOnClickListener {
-//
-////            val requestDelete = ResquestActionVm()
-////            requestDelete.vmId = item?.localId.toString()
-////            requestDelete.request = "destroy"
-////            requestDelete.releaseIp = true
-////
-////            val alertBuilder = AlertDialog.Builder(this)
-////
-////            alertBuilder.setMessage("Are you sure to Delete this Vm?")
-////            alertBuilder.setTitle("Confirm Delete Vm")
-////            alertBuilder.setCancelable(false)
-////            alertBuilder.setPositiveButton("Yes"){_,_ ->
-////                viewModel.deleteVm(token!!.api_url,tokens.toString(),requestDelete)
-////                Toast.makeText(this, "Please wait processing for Delete VM", Toast.LENGTH_SHORT).show()
-////            }
-////            alertBuilder.setNegativeButton("No"){_,_->
-////                Toast.makeText(this, "Cancel to Delete VM", Toast.LENGTH_SHORT).show()
-////
-////            }
-////            alertBuilder.setNeutralButton("Cancel"){_,_->
-////            }
-////            val alertDeleteVm = alertBuilder.create()
-////            alertDeleteVm.show()
-//        }
-
+        //start vm
         binding.btnStartVM.setOnClickListener {
 
             val start = "start"
@@ -160,9 +131,10 @@ class DetailActivity : AppCompatActivity() {
 
         }
 
+        //stop vm
         binding.btnStopVM.setOnClickListener {
 
-
+            //alert button
             val alertBuilder = AlertDialog.Builder(this)
             alertBuilder.setMessage("Are you sure to Stop this Vm?")
             alertBuilder.setTitle("Confirm Stop Vm")
@@ -170,7 +142,6 @@ class DetailActivity : AppCompatActivity() {
             alertBuilder.setPositiveButton("Yes"){_,_ ->
                 val start = "stop"
                 viewModel.actionVm(token.api_url, item!!.id!!, start)
-
                 viewModel.responseActionVm.observe(this@DetailActivity){
                     when(it) {
                         is NetworkResult.Success<*> -> {
@@ -204,11 +175,13 @@ class DetailActivity : AppCompatActivity() {
             
         }
     }
+
+    //notificarions menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-    //menu
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.notifications -> {

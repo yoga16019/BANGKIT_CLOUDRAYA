@@ -33,38 +33,40 @@ import kotlin.random.Random
 
 class FirebaseMessagingService : FirebaseMessagingService() {
     lateinit var notifDao: NotifDao
+    //refresh new token fcm
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         var refreshToken = FirebaseMessaging.getInstance().token
         Log.e("Refresh Token", refreshToken.toString())
     }
 
+    //when received message
     @SuppressLint("MissingPermission")
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        // Mendapatkan judul dan isi pesan dari RemoteMessage
+        // recieved tittle and body from notif
         val title = message.notification?.title
         val body = message.notification?.body
 
+        //get custom data from notif
         val customData = message.data
-
         val vmId = customData["vm_id"]!!
         val action = customData["action"]!!
 
+        //add notif data to databse
         val dataNotif = NotifData(0,title!!,body!!,vmId, action)
-
         notifDao = NotifDatabase.getDatabase(this)!!.notifDao()
         addNotif(dataNotif)
 
+        //show notif
         showNotification(title!!,body!!, vmId, action)
-
-
-
     }
+    //add notif to databse
     fun addNotif(notifData: NotifData){
         notifDao.insert(notifData)
 
     }
+
     @SuppressLint("RemoteViewLayout")
     private fun getCustomDesign(
         title: String,
@@ -138,6 +140,5 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         }
         notificationManager!!.notify(0, builder.build())
     }
-
 
 }
